@@ -1,3 +1,4 @@
+using System.IO;
 using UnityEngine;
 
 public class MeleeEnemy : MonoBehaviour
@@ -35,13 +36,13 @@ public class MeleeEnemy : MonoBehaviour
         }
     }
 
-    void OnTriggerEnter2D(Collider2D other)
+    void OnCollisionEnter2D(Collision2D other)
     {
         // Check if the enemy collides with the player
-        if (other.CompareTag("Player"))
+        if (other.transform.CompareTag("Player"))
         {
-            // Game over logic (to be implemented)
-            Debug.Log("Game Over"); // Placeholder for game over logic
+            Debug.Log("eat my balsz");
+            Application.Quit();
         }
     }
 }
