@@ -1,5 +1,6 @@
 using UnityEngine;
 
+[RequireComponent(typeof(AudioSource))]
 public class EnemyHealthIndicator : MonoBehaviour
 {
     public int maxHealth = 3; // Maximum health of the enemy
@@ -8,12 +9,14 @@ public class EnemyHealthIndicator : MonoBehaviour
     public Color fullHealthColor = Color.green; // Color at full health
     public Color lowHealthColor = Color.red; // Color at low health
     public float colorTransitionSpeed = 2f; // Speed of color transition
-    public AudioSource audioSource; // Reference to the AudioSource component
-    public AudioClip hitSound; // Audio clip to play when the enemy is hit
-    public AudioClip deathSound; // Audio clip to play when the enemy dies
+    public AudioClip hitAudio; // Reference to the AudioSource component for hit sound
+    public AudioClip deathAudio; // Reference to the AudioSource component for death sound
+
+    private AudioSource audioSource;
 
     void Start()
     {
+        audioSource = GetComponent<AudioSource>();
         currentHealth = maxHealth; // Initialize current health
         spriteRenderer = GetComponent<SpriteRenderer>(); // Get the sprite renderer component
     }
@@ -36,7 +39,7 @@ public class EnemyHealthIndicator : MonoBehaviour
         currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
 
         // Play hit sound
-        audioSource.PlayOneShot(hitSound);
+        audioSource.PlayOneShot(hitAudio);
 
         // Check if the enemy has been defeated
         if (currentHealth <= 0)
@@ -47,8 +50,11 @@ public class EnemyHealthIndicator : MonoBehaviour
 
     void Die()
     {
-        // Play death sound
-        audioSource.PlayOneShot(deathSound);
+
+        GameObject deathSound = new GameObject("Death Sound rhah");
+        AudioSource deathSrc = deathSound.AddComponent<AudioSource>();
+        deathSrc.PlayOneShot(deathAudio);
+        Destroy(deathSound, deathAudio.length);
 
         // Implement death behavior, such as destroying the enemy GameObject
         Destroy(gameObject);
