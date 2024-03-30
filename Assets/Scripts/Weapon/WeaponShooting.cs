@@ -1,30 +1,40 @@
 using UnityEngine;
 using System.Collections;
 
-public class PistolShooting : MonoBehaviour
+public class WeaponShooting : MonoBehaviour
 {
     public GameObject bulletPrefab; // Reference to the projectile prefab
     public GameObject muzzleFlashPrefab; // Reference to the muzzle flash prefab
     public GameObject bulletShellPrefab; // Reference to the bullet shell prefab
-    public Transform firePoint; // Reference to the point where projectiles will be spawned
     public Transform bulletShellSpawnPoint; // Reference to the point where bullet shells will be spawned
     public Transform gun;
     public float bulletSpeed = 10f; // Speed of the projectile
-    public int maxBullets = 8; // Maximum number of bullets the pistol can hold
+    public int maxBullets = 8; // Maximum number of bullets the weapon can hold
     public float reloadTime = 0.5f; // Time it takes to reload in seconds
     public float muzzleFlashDuration = 0.1f; // Duration of the muzzle flash
     public float shellUpwardSpeed = 2f; // Speed at which the bullet shell moves upward
     public float shellDespawnDelay = 0.3f; // Delay before despawning the bullet shell
     public float bulletDespawnDelay = 2f; // Delay before despawning the bullet
     public float hoverHeight = 0.5f; // Hover height radius
+    public float fireRate = 0.1f; // Rate of fire (bullets per second)
+    public bool continuousFire = false; // Allow continuous firing while the fire button is held down
     public AudioSource reloadSound; //reload audio
 
     private int currentBullets; // Number of bullets the player currently has
     private bool isReloading; // Flag to track if the player is currently reloading
+    private bool isFiring; // Flag to track if the weapon is currently firing
+    private Coroutine fireCoroutine; // Coroutine reference for continuous firing
+    private Transform firePoint; // Reference to the point where projectiles will be spawned
 
     void Start()
     {
         currentBullets = maxBullets; // Initialize the current bullets count
+        // Get the fire point from a child object
+        firePoint = transform.Find("FirePoint");
+        if (firePoint == null)
+        {
+            Debug.LogError("FirePoint not found as a child object.");
+        }
     }
 
     void Update()
@@ -33,9 +43,28 @@ public class PistolShooting : MonoBehaviour
         float distanceToMouse = Vector2.Distance(transform.position, Camera.main.ScreenToWorldPoint(Input.mousePosition));
 
         // Check if the player presses the fire button (e.g., left mouse button) and if not currently reloading
-        if (Input.GetButtonDown("Fire1") && !isReloading && currentBullets > 0 && distanceToMouse > hoverHeight)
+        if ((Input.GetButtonDown("Fire1") && !continuousFire && !isReloading && currentBullets > 0 && distanceToMouse > hoverHeight) ||
+            (continuousFire && Input.GetButton("Fire1") && !isReloading && currentBullets > 0 && distanceToMouse > hoverHeight && !isFiring))
         {
-            Shoot(); // Call the Shoot method
+            // Start firing a single shot or continuous fire based on the continuousFire flag
+            if (continuousFire)
+            {
+                StartContinuousFire();
+            }
+            else
+            {
+                Shoot();
+            }
+        }
+
+        // Check if the player releases the fire button
+        if (Input.GetButtonUp("Fire1"))
+        {
+            // Stop continuous firing if it's active
+            if (continuousFire)
+            {
+                StopContinuousFire();
+            }
         }
 
         // Check if the player presses the reload button (e.g., R) and if not currently reloading
@@ -154,5 +183,44 @@ public class PistolShooting : MonoBehaviour
         currentBullets = maxBullets;
 
         isReloading = false; // Reset the reloading flag
+
+        // Resume continuous firing if it was active before reloading
+        if (continuousFire && isFiring)
+        {
+            StartContinuousFire();
+        }
+    }
+
+    void StartContinuousFire()
+    {
+        if (!isFiring)
+        {
+            // Start firing routine
+            fireCoroutine = StartCoroutine(FireRoutine());
+            isFiring = true;
+        }
+    }
+
+    void StopContinuousFire()
+    {
+        if (isFiring)
+        {
+            // Stop firing routine
+            if (fireCoroutine != null)
+            {
+                StopCoroutine(fireCoroutine);
+            }
+            isFiring = false;
+        }
+    }
+
+    IEnumerator FireRoutine()
+    {
+        while (currentBullets > 0 && !isReloading)
+        {
+            Shoot(); // Call the Shoot method
+            yield return new WaitForSeconds(1f / fireRate); // Wait for the specified fire rate
+        }
+        isFiring = false; // Reset the firing flag when done
     }
 }
