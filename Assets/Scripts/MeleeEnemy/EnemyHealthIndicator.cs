@@ -13,9 +13,11 @@ public class EnemyHealthIndicator : MonoBehaviour
     public AudioClip deathAudio; // Reference to the AudioSource component for death sound
 
     private AudioSource audioSource;
+    private WaveManager waveManager; // Reference to the WaveManager script
 
     void Start()
     {
+        waveManager = FindObjectOfType<WaveManager>();
         audioSource = GetComponent<AudioSource>();
         currentHealth = maxHealth; // Initialize current health
         spriteRenderer = GetComponent<SpriteRenderer>(); // Get the sprite renderer component
@@ -50,6 +52,12 @@ public class EnemyHealthIndicator : MonoBehaviour
 
     void Die()
     {
+
+        if (waveManager != null)
+        {
+            waveManager.RangeEnemyDefeated(gameObject);
+            waveManager.MeleeEnemyDefeated(gameObject);
+        } 
 
         GameObject deathSound = new GameObject("Death Sound rhah");
         AudioSource deathSrc = deathSound.AddComponent<AudioSource>();
