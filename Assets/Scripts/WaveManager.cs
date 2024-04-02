@@ -7,11 +7,13 @@ public class WaveManager : MonoBehaviour
 {
     public GameObject meleeEnemyPrefab;
     public GameObject rangeEnemyPrefab;
+    public GameObject bigMeleeEnemyPrefab;
     public GameObject pistolPrefab; // Prefab for the pistol weapon
     public GameObject smgPrefab; // Prefab for the SMG weapon
+    public GameObject sniperPrefab; // Prefab for the sniper weapon
     public Transform[] meleeSpawnPoints;
     public Transform[] rangeSpawnPoints;
-    public Transform weaponSpawnPoint; // Spawn point for weapons
+    public Transform weaponSpawnPoint;
     public int baseMeleeEnemiesPerWave = 2;
     public int meleeEnemiesIncreasePerWave = 2;
     public int baseRangeEnemiesPerWave = 1;
@@ -22,6 +24,7 @@ public class WaveManager : MonoBehaviour
     private int currentWave = 0;
     private List<GameObject> activeMeleeEnemies = new List<GameObject>();
     private List<GameObject> activeRangeEnemies = new List<GameObject>();
+    private List<GameObject> activeBigMeleeEnemies = new List<GameObject>(); // List to track active big melee enemies
     private int meleeEnemiesToSpawnForCurrentWave = 0;
     private int rangeEnemiesToSpawnForCurrentWave = 0;
     private bool isStartingNextWave = false;
@@ -36,16 +39,26 @@ public class WaveManager : MonoBehaviour
         currentWave++;
         Debug.Log("Wave " + currentWave + " started!");
 
-        // Spawn weapons at specific waves
         SpawnWeaponsForWave(currentWave);
 
         meleeEnemiesToSpawnForCurrentWave = baseMeleeEnemiesPerWave + (currentWave - 1) * meleeEnemiesIncreasePerWave;
         rangeEnemiesToSpawnForCurrentWave = currentWave >= 5 ? Mathf.Min(baseRangeEnemiesPerWave + (currentWave - 5) * rangeEnemiesIncreasePerWave, 4) : 0;
 
+        if (currentWave >= 10)
+        {
+            int bigMeleeEnemyCount = Mathf.Min((currentWave - 10) / 2 + 1, 4); // Calculate big melee enemy count based on wave number
+            for (int i = 0; i < bigMeleeEnemyCount; i++)
+            {
+                SpawnBigMeleeEnemy();
+            }
+        }
+
         StartCoroutine(SpawnEnemies());
 
+        // Wait until all enemies are defeated before progressing to the next wave
         yield return new WaitUntil(() => activeMeleeEnemies.Count == 0 && activeRangeEnemies.Count == 0 &&
-                                          meleeEnemiesToSpawnForCurrentWave == 0 && rangeEnemiesToSpawnForCurrentWave == 0);
+                                          meleeEnemiesToSpawnForCurrentWave == 0 && rangeEnemiesToSpawnForCurrentWave == 0 &&
+                                          activeBigMeleeEnemies.Count == 0);
 
         Debug.Log("Wave " + currentWave + " completed!");
 
@@ -83,6 +96,46 @@ public class WaveManager : MonoBehaviour
         }
     }
 
+    void SpawnBigMeleeEnemy()
+    {
+        Transform meleeSpawnPoint = meleeSpawnPoints[UnityEngine.Random.Range(0, meleeSpawnPoints.Length)];
+        GameObject bigMeleeEnemy = Instantiate(bigMeleeEnemyPrefab, meleeSpawnPoint.position, Quaternion.identity);
+        activeBigMeleeEnemies.Add(bigMeleeEnemy);
+    }
+
+    IEnumerator StartNextWave()
+    {
+        isStartingNextWave = true;
+        Debug.Log("Starting next wave...");
+        yield return new WaitForSeconds(timeBetweenWaves);
+        StartCoroutine(StartWave());
+        isStartingNextWave = false;
+    }
+
+    void SpawnWeaponsForWave(int wave)
+    {
+        if (wave == 1)
+        {
+            GameObject pistol = Instantiate(pistolPrefab, weaponSpawnPoint.position, Quaternion.identity);
+            PlaySpawnSound();
+        }
+        else if (wave == 6)
+        {
+            GameObject smg = Instantiate(smgPrefab, weaponSpawnPoint.position, Quaternion.identity);
+            PlaySpawnSound();
+        }
+        else if (wave == 12)
+        {
+            GameObject sniper = Instantiate(sniperPrefab, weaponSpawnPoint.position, Quaternion.identity);
+            PlaySpawnSound();
+        }
+    }
+
+    void PlaySpawnSound()
+    {
+        AudioSource.PlayClipAtPoint(weaponSpawnSound, transform.position);
+    }
+
     Transform GetAvailableRangeSpawnPoint()
     {
         List<Transform> shuffledSpawnPoints = new List<Transform>(rangeSpawnPoints);
@@ -109,15 +162,6 @@ public class WaveManager : MonoBehaviour
         return false;
     }
 
-    IEnumerator StartNextWave()
-    {
-        isStartingNextWave = true;
-        Debug.Log("Starting next wave...");
-        yield return new WaitForSeconds(timeBetweenWaves);
-        StartCoroutine(StartWave());
-        isStartingNextWave = false;
-    }
-
     public void MeleeEnemyDefeated(GameObject enemy)
     {
         if (activeMeleeEnemies.Contains(enemy))
@@ -125,6 +169,13 @@ public class WaveManager : MonoBehaviour
             activeMeleeEnemies.Remove(enemy);
             Debug.Log("Melee Enemy defeated. Melee Enemies remaining: " + activeMeleeEnemies.Count);
             Debug.Log("Melee Enemies left to spawn: " + meleeEnemiesToSpawnForCurrentWave);
+        }
+
+        // Check if the defeated enemy is a big melee enemy
+        if (activeBigMeleeEnemies.Contains(enemy))
+        {
+            activeBigMeleeEnemies.Remove(enemy);
+            Debug.Log("Big Melee Enemy defeated. Big Melee Enemies remaining: " + activeBigMeleeEnemies.Count);
         }
     }
 
@@ -136,28 +187,5 @@ public class WaveManager : MonoBehaviour
             Debug.Log("Range Enemy defeated. Range Enemies remaining: " + activeRangeEnemies.Count);
             Debug.Log("Range Enemies left to spawn: " + rangeEnemiesToSpawnForCurrentWave);
         }
-    }
-
-    void SpawnWeaponsForWave(int wave)
-    {
-        if (wave == 1)
-        {
-            // Spawn a pistol weapon at the weapon spawn point for wave 1
-            GameObject pistol = Instantiate(pistolPrefab, weaponSpawnPoint.position, Quaternion.identity);
-            // Play spawn sound
-            PlaySpawnSound();
-        }
-        else if (wave == 6)
-        {
-            // Spawn an SMG weapon at the weapon spawn point for wave 6
-            GameObject smg = Instantiate(smgPrefab, weaponSpawnPoint.position, Quaternion.identity);
-            // Play spawn sound
-            PlaySpawnSound();
-        }
-    }
-
-    void PlaySpawnSound()
-    {
-        AudioSource.PlayClipAtPoint(weaponSpawnSound, transform.position);
     }
 }
