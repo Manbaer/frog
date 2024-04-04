@@ -18,6 +18,7 @@ public class WeaponShooting : MonoBehaviour
     public float hoverHeight = 0.5f; // Hover height radius
     public float fireRate = 0.1f; // Rate of fire (bullets per second)
     public bool continuousFire = false; // Allow continuous firing while the fire button is held down
+    public bool isPaused = false; //To stop script or nah
     public AudioSource reloadSound; //reload audio
 
     private int currentBullets; // Number of bullets the player currently has
@@ -39,7 +40,10 @@ public class WeaponShooting : MonoBehaviour
 
     void Update()
     {
-        // Calculate the distance between the player's position and the mouse position
+
+        if (!isPaused)
+        {
+ // Calculate the distance between the player's position and the mouse position
         float distanceToMouse = Vector2.Distance(transform.position, Camera.main.ScreenToWorldPoint(Input.mousePosition));
 
         // Check if the player presses the fire button (e.g., left mouse button) and if not currently reloading
@@ -72,6 +76,8 @@ public class WeaponShooting : MonoBehaviour
         {
             Reload(); // Call the Reload method
         }
+        }
+       
     }
 
     void Shoot()
@@ -218,7 +224,10 @@ public class WeaponShooting : MonoBehaviour
     {
         while (currentBullets > 0 && !isReloading)
         {
-            Shoot(); // Call the Shoot method
+            if (!isPaused) // Check if shooting is not paused
+            {
+                Shoot(); // Call the Shoot method
+            }
             yield return new WaitForSeconds(1f / fireRate); // Wait for the specified fire rate
         }
         isFiring = false; // Reset the firing flag when done

@@ -79,7 +79,7 @@ GameObject:
   - component: {fileID: 3857574144661024982}
   m_Layer: 0
   m_Name: Sniper
-  m_TagString: Untagged
+  m_TagString: Gun
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -167,6 +167,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hoverHeight: 0.5
   gunTransform: {fileID: 3635693412006132034}
+  isPaused: 0
 --- !u!114 &2199677745387906085
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -194,6 +195,7 @@ MonoBehaviour:
   hoverHeight: 0.5
   fireRate: 3
   continuousFire: 1
+  isPaused: 0
   reloadSound: {fileID: 7089384526009221891}
 --- !u!82 &7089384526009221891
 AudioSource:

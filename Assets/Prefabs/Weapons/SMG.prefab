@@ -48,7 +48,7 @@ GameObject:
   - component: {fileID: 8243399750367569347}
   m_Layer: 0
   m_Name: SMG
-  m_TagString: Untagged
+  m_TagString: Gun
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -136,6 +136,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hoverHeight: 0.5
   gunTransform: {fileID: 6893846280483821180}
+  isPaused: 0
 --- !u!114 &3267128677168712794
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -163,6 +164,7 @@ MonoBehaviour:
   hoverHeight: 0.5
   fireRate: 5
   continuousFire: 1
+  isPaused: 0
   reloadSound: {fileID: 5980302304197210397}
 --- !u!82 &5980302304197210397
 AudioSource:

@@ -79,7 +79,7 @@ GameObject:
   - component: {fileID: -1125545614669575486}
   m_Layer: 0
   m_Name: Pistol
-  m_TagString: Untagged
+  m_TagString: Gun
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -167,6 +167,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hoverHeight: 0.5
   gunTransform: {fileID: 4241813601968964237}
+  isPaused: 0
 --- !u!114 &82538966756780079
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -194,6 +195,7 @@ MonoBehaviour:
   hoverHeight: 0.5
   fireRate: 10
   continuousFire: 0
+  isPaused: 0
   reloadSound: {fileID: 3350156760982880925}
 --- !u!82 &3350156760982880925
 AudioSource:
@@ -303,7 +305,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: edab773f1c98def4f87bd8c4212924c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  weaponObject: {fileID: 4215712715150249222}
 --- !u!61 &-1125545614669575486
 BoxCollider2D:
   m_ObjectHideFlags: 0
