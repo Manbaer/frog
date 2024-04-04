@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 2838577083125428843}
   m_Layer: 0
   m_Name: SniperBullet
-  m_TagString: Untagged
+  m_TagString: Bullet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -223,6 +223,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 035688929c53b7d4cbed631772f79802, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spawnDeath: {fileID: 0}
   damage: 3
   affectsEnemy: 1
 --- !u!61 &2838577083125428843

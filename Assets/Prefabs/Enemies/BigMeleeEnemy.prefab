@@ -105,7 +105,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 1
-  m_Sprite: {fileID: 21300000, guid: 2154829076496d44b951c632eee94756, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 6352829886300334b9eadaa7e531e0bf, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -128,6 +128,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 235fd701f3b00fc49b6e8109f74e69e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spawnDeath: {fileID: 2287155922902142689, guid: 459eab658368a8347867ed482593d6e2, type: 3}
   speed: 1
   spriteRenderer: {fileID: 2242419631410572452}
 --- !u!61 &8912611943009015114
@@ -188,9 +189,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 6
-  fullHealthColor: {r: 0, g: 1, b: 0, a: 1}
-  lowHealthColor: {r: 1, g: 0, b: 0, a: 1}
-  colorTransitionSpeed: 2
+  originalColor: {r: 0, g: 0, b: 0, a: 0}
+  darknessIncrement: 0.15
   hitAudio: {fileID: 8300000, guid: 7513cd03d5a6ee443b6beec8feace54b, type: 3}
   deathAudio: {fileID: 8300000, guid: d1e3921a39d00464f9d518b0805f87a1, type: 3}
 --- !u!82 &8894486993028007017

@@ -1,8 +1,10 @@
 using System.IO;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class MeleeEnemy : MonoBehaviour
 {
+    public GameObject spawnDeath;
     public float speed = 3f; // Movement speed of the enemy
     public SpriteRenderer spriteRenderer; // Reference to the sprite renderer component
 
@@ -42,7 +44,8 @@ public class MeleeEnemy : MonoBehaviour
         if (other.transform.CompareTag("Player"))
         {
             Debug.Log("eat my balsz");
-            Application.Quit();
+            Instantiate(spawnDeath);
+            Destroy(gameObject);
         }
     }
 }

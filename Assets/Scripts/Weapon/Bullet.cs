@@ -1,7 +1,9 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Bullet : MonoBehaviour
 {
+    public GameObject spawnDeath;
     public int damage = 1; // Amount of damage the bullet deals
     public bool affectsEnemy = true; // Flag to determine if the bullet affects enemies
 
@@ -29,7 +31,7 @@ public class Bullet : MonoBehaviour
             if (other.transform.CompareTag("Player"))
             {
                 Debug.Log("eat my balsz");
-                Application.Quit();
+                Instantiate(spawnDeath);
                 Destroy(gameObject);
             }
         }
