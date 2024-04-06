@@ -5,7 +5,6 @@ using System.Collections;
 
 public class DeathManager : MonoBehaviour
 {
-  
     public void RestartGame()
     {
         SceneManager.LoadScene("TestStage");
