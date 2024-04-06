@@ -22,6 +22,8 @@ public class Player : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>(); // Get the Rigidbody component attached to the player GameObject
         spriteRenderer = GetComponent<SpriteRenderer>(); // Get the SpriteRenderer component attached to the player GameObject
+
+        Cursor.lockState = CursorLockMode.Confined;
     }
 
     void Update()

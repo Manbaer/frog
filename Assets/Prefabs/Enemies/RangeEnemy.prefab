@@ -241,7 +241,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 947f649ebf9a26947acbefea8a47aed6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 3
+  maxHealth: 2
   originalColor: {r: 0, g: 0, b: 0, a: 0}
   darknessIncrement: 0.3
   hitAudio: {fileID: 8300000, guid: 7513cd03d5a6ee443b6beec8feace54b, type: 3}
