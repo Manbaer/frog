@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 
 public class WeaponShooting : MonoBehaviour
@@ -20,8 +21,8 @@ public class WeaponShooting : MonoBehaviour
     public bool continuousFire = false; // Allow continuous firing while the fire button is held down
     public bool isPaused = false; //To stop script or nah
     public AudioSource reloadSound; //reload audio
-
-    private int currentBullets; // Number of bullets the player currently has
+    public int currentBullets; // Number of bullets the player currently has
+    
     private bool isReloading; // Flag to track if the player is currently reloading
     private bool isFiring; // Flag to track if the weapon is currently firing
     private Coroutine fireCoroutine; // Coroutine reference for continuous firing
@@ -77,8 +78,9 @@ public class WeaponShooting : MonoBehaviour
             Reload(); // Call the Reload method
         }
         }
-       
     }
+
+ 
 
     void Shoot()
     {

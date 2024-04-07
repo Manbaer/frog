@@ -192,7 +192,7 @@ MonoBehaviour:
   originalColor: {r: 0, g: 0, b: 0, a: 0}
   darknessIncrement: 0.15
   hitAudio: {fileID: 8300000, guid: 7513cd03d5a6ee443b6beec8feace54b, type: 3}
-  deathAudio: {fileID: 8300000, guid: d1e3921a39d00464f9d518b0805f87a1, type: 3}
+  deathAudio: {fileID: 8300000, guid: 04de5d03dffee8644971934c84d25028, type: 3}
 --- !u!82 &8894486993028007017
 AudioSource:
   m_ObjectHideFlags: 0

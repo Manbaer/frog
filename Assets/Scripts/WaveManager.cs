@@ -124,7 +124,7 @@ public class WaveManager : MonoBehaviour
             GameObject smg = Instantiate(smgPrefab, weaponSpawnPoint.position, Quaternion.identity);
             PlaySpawnSound();
         }
-        else if (wave == 12)
+        else if (wave == 11)
         {
             GameObject sniper = Instantiate(sniperPrefab, weaponSpawnPoint.position, Quaternion.identity);
             PlaySpawnSound();

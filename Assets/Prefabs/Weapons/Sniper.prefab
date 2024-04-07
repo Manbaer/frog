@@ -183,6 +183,7 @@ MonoBehaviour:
   bulletPrefab: {fileID: 6195558876269216002, guid: 9742e155fd26a0242ae14c3a4afa6d3b, type: 3}
   muzzleFlashPrefab: {fileID: 8511109981184489805, guid: e0ae28e45e96eab439abe44472e1dfed, type: 3}
   bulletShellPrefab: {fileID: 3344060935669363530, guid: 6d4b77d8b7afd24499f11a06b79b82bf, type: 3}
+  player: {fileID: 4464828477147504082, guid: 4e6d663a4d792dd45b7cdb6056c5d59b, type: 3}
   bulletShellSpawnPoint: {fileID: 4874476973152122339}
   gun: {fileID: 3635693412006132034}
   bulletSpeed: 10
