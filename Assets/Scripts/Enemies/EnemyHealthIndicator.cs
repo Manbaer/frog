@@ -4,7 +4,8 @@ using UnityEngine;
 public class EnemyHealthIndicator : MonoBehaviour
 {
     public int maxHealth = 3; // Maximum health of the enemy
-    private int currentHealth; // Current health of the enemy
+    public  int currentHealth; // Current health of the enemy
+    public int killScore;
     private SpriteRenderer spriteRenderer; // Reference to the sprite renderer component
     public Color originalColor; // Original color of the enemy
     public float darknessIncrement = 0.3f; // Amount to darken the color per hit

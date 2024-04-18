@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 using System;
 using System.Collections.Generic;
@@ -20,6 +21,7 @@ public class WaveManager : MonoBehaviour
     public int rangeEnemiesIncreasePerWave = 1;
     public float timeBetweenWaves = 3f;
     public AudioClip weaponSpawnSound;
+    public Text waveText; //Wave counter displayed for player
 
     private int currentWave = 0;
     private List<GameObject> activeMeleeEnemies = new List<GameObject>();
@@ -37,6 +39,7 @@ public class WaveManager : MonoBehaviour
     IEnumerator StartWave()
     {
         currentWave++;
+        waveText.text = "Wave " + currentWave;
         Debug.Log("Wave " + currentWave + " started!");
 
         SpawnWeaponsForWave(currentWave);

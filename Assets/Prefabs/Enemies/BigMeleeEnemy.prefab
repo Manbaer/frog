@@ -189,6 +189,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 6
+  currentHealth: 0
+  killScore: 3000
   originalColor: {r: 0, g: 0, b: 0, a: 0}
   darknessIncrement: 0.15
   hitAudio: {fileID: 8300000, guid: 7513cd03d5a6ee443b6beec8feace54b, type: 3}

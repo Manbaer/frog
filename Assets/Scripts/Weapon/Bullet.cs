@@ -19,6 +19,12 @@ public class Bullet : MonoBehaviour
             if (enemyHealth != null)
             {
                 // Apply damage to the enemy
+
+                if (enemyHealth.currentHealth-damage <= 0)
+                {
+                    ScoreManager.Score += enemyHealth.killScore;
+                }
+
                 enemyHealth.TakeDamage(damage);
             }
 
