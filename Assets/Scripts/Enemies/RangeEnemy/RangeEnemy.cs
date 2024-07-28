@@ -20,8 +20,18 @@ public class RangeEnemy : MonoBehaviour
     {
         // Rotate the enemy to face the player
         Vector2 direction = player.position - transform.position;
-        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-        transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+
+        // Determine if the player is to the left or right of the enemy
+        if (direction.x < 0)
+        {
+            // Player is to the left, flip the enemy (negative scale on X axis)
+            transform.localScale = new Vector3(-1, 1, 1);
+        }
+        else
+        {
+            // Player is to the right, normal scale on X axis
+            transform.localScale = new Vector3(1, 1, 1);
+        }
 
         // Update the shooting timer
         timer += Time.deltaTime;
@@ -35,11 +45,18 @@ public class RangeEnemy : MonoBehaviour
     void Shoot()
     {
         // Instantiate a bullet
-        GameObject bullet = Instantiate(bulletPrefab, transform.position, transform.rotation);
+        GameObject bullet = Instantiate(bulletPrefab, transform.position, Quaternion.identity);
+
+        // Calculate the direction to the player
+        Vector2 direction = player.position - transform.position;
+
+        // Rotate the bullet to face the player
+        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+        bullet.transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
 
         // Get the rigidbody of the bullet and apply velocity towards the player
         Rigidbody2D rb = bullet.GetComponent<Rigidbody2D>();
-        rb.velocity = (player.position - transform.position).normalized * bulletSpeed;
+        rb.velocity = direction.normalized * bulletSpeed;
 
         // Destroy the bullet after despawnTime seconds
         Destroy(bullet, despawnTime);
